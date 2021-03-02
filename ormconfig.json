@@ -1,0 +1,17 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "username": "root",
+    "password": "",
+    "database": "test-typeorm-migrations",
+    "entities": ["dist/database/entities/*.entity{.ts,.js}"],
+    "synchronize": false,
+    "migrationsTableName": "migrations_typeorm",
+    "migrations": ["dist/database/migrations/*{.ts,.js}"],
+    "cli": {
+        "migrationsDir": "src/database/migrations",
+        "entitiesDir": "src/database/entities",
+        "subscribersDir": "src/subscriber"
+    }
+  }
