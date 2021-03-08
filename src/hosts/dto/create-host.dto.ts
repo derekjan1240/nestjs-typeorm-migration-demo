@@ -30,8 +30,6 @@ export class CreateHostDto {
   @Length(1, 200, { message: '年齡範圍錯誤' })
   readonly age: number;
 
-  readonly avatar: string;
-
   @IsNotEmpty({ message: '地址不得為空' })
   readonly address: string;
 }
