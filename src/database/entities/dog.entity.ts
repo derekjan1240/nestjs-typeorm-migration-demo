@@ -9,4 +9,7 @@ export class Dog extends BaseEntity {
 
   @Column({ type: 'enum', enum: Gender, nullable: false })
   gender: Gender;
+
+  @Column({ type: 'tinyint', nullable: false, unsigned: true })
+  age: number;
 }

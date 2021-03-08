@@ -16,7 +16,7 @@ export class Host extends BaseEntity {
   @Column({ type: 'varchar', nullable: true, length: 50 })
   username: string;
 
-  @Column({ type: 'tinyint', nullable: false })
+  @Column({ type: 'tinyint', nullable: false, unsigned: true })
   age: number;
 
   @Column({ type: 'varchar', nullable: false, length: 100 })
