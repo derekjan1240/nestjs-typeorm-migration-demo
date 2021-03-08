@@ -1,15 +1,26 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  UsePipes,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { DogsService } from './dogs.service';
 import { CreateDogDto } from './dto/create-dog.dto';
 import { UpdateDogDto } from './dto/update-dog.dto';
+import { ValidationPipe } from '../pipe/validation.pipe';
 
 @Controller('dogs')
 export class DogsController {
   constructor(private readonly dogsService: DogsService) {}
 
+  @UsePipes(new ValidationPipe())
   @Post()
-  create(@Body() createDogDto: CreateDogDto) {
-    return this.dogsService.create(createDogDto);
+  create(@Body() body: CreateDogDto) {
+    return this.dogsService.create(body);
   }
 
   @Get()
