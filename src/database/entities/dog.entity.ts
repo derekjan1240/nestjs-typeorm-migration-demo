@@ -1,13 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column } from 'typeorm';
+import { BaseEntity } from './base.entity';
+import { Gender } from './enums/gender';
 
 @Entity()
 export class Dog extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
+  @Column({ type: 'varchar', nullable: false, length: 50 })
   name: string;
 
-  @Column()
-  gender: boolean;
+  @Column({ type: 'enum', enum: Gender, nullable: false })
+  gender: Gender;
 }
