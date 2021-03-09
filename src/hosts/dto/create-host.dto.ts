@@ -3,14 +3,15 @@ import {
   IsString,
   IsInt,
   IsPositive,
-  IsBoolean,
+  IsEnum,
   Length,
 } from 'class-validator';
+import { Gender } from 'src/database/entities/enums/gender';
 
 export class CreateHostDto {
-  @IsBoolean({ message: '性別型態錯誤' })
+  @IsEnum(Gender, { message: '性別型態錯誤' })
   @IsNotEmpty({ message: '性別不得為空' })
-  readonly gender: boolean;
+  readonly gender: Gender;
 
   @IsString({ message: '姓名必須為字串' })
   @Length(1, 20, { message: '姓名範圍錯誤' })

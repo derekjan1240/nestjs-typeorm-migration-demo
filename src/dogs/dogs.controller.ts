@@ -9,23 +9,28 @@ import {
   Delete,
 } from '@nestjs/common';
 import { DogsService } from './dogs.service';
+import { DogDto } from './dto/dog.dto';
 import { CreateDogDto } from './dto/create-dog.dto';
 import { UpdateDogDto } from './dto/update-dog.dto';
-import { ValidationPipe } from '../pipe/validation.pipe';
+import { User } from '../common/decorators/user.decorator';
+import { User as UserEntity } from 'src/database/entities/user.entity';
 
 @Controller('dogs')
 export class DogsController {
   constructor(private readonly dogsService: DogsService) {}
 
-  @UsePipes(new ValidationPipe())
   @Post()
-  create(@Body() body: CreateDogDto) {
-    return this.dogsService.create(body);
+  public async create(
+    @Body() dto: CreateDogDto,
+    @User() user: UserEntity,
+  ): Promise<CreateDogDto> {
+    const dog = DogDto.from(dto);
+    return this.dogsService.create(dog, user);
   }
 
   @Get()
-  findAll() {
-    return this.dogsService.findAll();
+  public async findAll(): Promise<CreateDogDto[]> {
+    return await this.dogsService.findAll();
   }
 
   @Get(':id')
