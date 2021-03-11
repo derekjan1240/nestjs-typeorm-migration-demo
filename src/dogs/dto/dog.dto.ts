@@ -7,6 +7,8 @@ import {
   IsEnum,
   IsPositive,
   Length,
+  Min,
+  Max,
 } from 'class-validator';
 import { Gender } from 'src/database/entities/enums/gender';
 import { Dog } from 'src/database/entities/dog.entity';
@@ -29,10 +31,11 @@ export class DogDto {
   gender: Gender;
 
   @ApiProperty({ required: true })
-  @IsInt({ message: '年齡必須為整數' })
+  @Min(1, { message: '年齡最小為 1 歲' })
+  @Max(200, { message: '年齡最大為 200 歲' })
   @IsPositive({ message: '年齡不得為負數' })
+  @IsInt({ message: '年齡必須為整數' })
   @IsNotEmpty({ message: '年齡不得為空' })
-  @Length(1, 200, { message: '年齡範圍錯誤' })
   age: number;
 
   public static from(dto: Partial<DogDto>) {

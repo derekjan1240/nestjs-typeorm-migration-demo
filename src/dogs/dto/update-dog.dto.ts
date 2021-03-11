@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsNotEmpty,
+  IsOptional,
   IsString,
   IsInt,
   IsEnum,
@@ -17,12 +17,12 @@ export class UpdateDogDto {
   @ApiProperty({ required: true })
   @Length(1, 10, { message: '姓名長度需要小於十' })
   @IsString({ message: '姓名型態錯誤' })
-  @IsNotEmpty({ message: '姓名不得為空' })
+  @IsOptional()
   name: string;
 
   @ApiProperty({ required: true })
   @IsEnum(Gender, { message: '性別型態錯誤' })
-  @IsNotEmpty({ message: '性別不得為空' })
+  @IsOptional()
   gender: Gender;
 
   @ApiProperty({ required: true })
@@ -30,7 +30,7 @@ export class UpdateDogDto {
   @Max(200, { message: '年齡最大為 200 歲' })
   @IsPositive({ message: '年齡不得為負數' })
   @IsInt({ message: '年齡必須為整數' })
-  @IsNotEmpty({ message: '年齡不得為空' })
+  @IsOptional()
   age: number;
 
   public static from(dto: Partial<UpdateDogDto>) {
