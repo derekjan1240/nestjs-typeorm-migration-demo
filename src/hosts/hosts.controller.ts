@@ -1,34 +1,54 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { HostsService } from './hosts.service';
+import { HostDto } from './dto/host.dto';
 import { CreateHostDto } from './dto/create-host.dto';
 import { UpdateHostDto } from './dto/update-host.dto';
+import { User } from '../common/decorators/user.decorator';
+import { User as UserEntity } from 'src/database/entities/user.entity';
 
 @Controller('hosts')
 export class HostsController {
   constructor(private readonly hostsService: HostsService) {}
 
   @Post()
-  create(@Body() createHostDto: CreateHostDto) {
-    return this.hostsService.create(createHostDto);
+  public async create(
+    @Body() dto: CreateHostDto,
+    @User() user: UserEntity,
+  ): Promise<CreateHostDto> {
+    const dog = CreateHostDto.from(dto);
+    return this.hostsService.create(dog, user);
   }
 
   @Get()
-  findAll() {
-    return this.hostsService.findAll();
+  public async findAll(): Promise<HostDto[]> {
+    return await this.hostsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.hostsService.findOne(+id);
+  public async findOne(@Param('id') id: string): Promise<HostDto> {
+    return await this.hostsService.findOne(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateHostDto: UpdateHostDto) {
-    return this.hostsService.update(+id, updateHostDto);
+  public async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateHostDto,
+    @User() user: UserEntity,
+  ): Promise<UpdateHostDto> {
+    const dog = UpdateHostDto.from(dto);
+    return this.hostsService.update(id, dog, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.hostsService.remove(+id);
+  public async remove(@Param('id') id: string): Promise<HostDto> {
+    return await this.hostsService.remove(id);
   }
 }
