@@ -12,6 +12,7 @@ import {
 import { Gender } from 'src/database/entities/enums/gender';
 import { Dog } from 'src/database/entities/dog.entity';
 import { User } from 'src/database/entities/user.entity';
+import { Host } from 'src/database/entities/host.entity';
 
 export class CreateDogDto {
   @ApiProperty({ required: true })
@@ -33,6 +34,10 @@ export class CreateDogDto {
   @IsNotEmpty({ message: '年齡不得為空' })
   age: number;
 
+  @ApiProperty({ required: true })
+  @IsNotEmpty({ message: '飼主不得為空' })
+  hostId: string;
+
   public static from(dto: Partial<CreateDogDto>) {
     const it = new CreateDogDto();
     it.name = dto.name;
@@ -48,11 +53,12 @@ export class CreateDogDto {
     });
   }
 
-  public toEntity(user: User = null) {
+  public toEntity(host: Host = null, user: User = null) {
     const it = new Dog();
     it.name = this.name;
     it.gender = this.gender;
     it.age = this.age;
+    it.host = host;
     it.createDateTime = new Date();
     it.createdBy = user ? user.id : 'guest';
     it.lastChangedBy = user ? user.id : 'guest';
