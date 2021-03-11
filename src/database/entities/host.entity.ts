@@ -1,5 +1,6 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import { Dog } from './dog.entity';
 import { Gender } from './enums/gender';
 
 @Entity()
@@ -21,4 +22,7 @@ export class Host extends BaseEntity {
 
   @Column({ type: 'varchar', nullable: false, length: 100 })
   address: string;
+
+  @OneToMany(() => Dog, (dog) => dog.host)
+  dogs: Dog[];
 }

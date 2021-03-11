@@ -1,5 +1,6 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import { Host } from './host.entity';
 import { Gender } from './enums/gender';
 
 @Entity()
@@ -12,4 +13,7 @@ export class Dog extends BaseEntity {
 
   @Column({ type: 'tinyint', nullable: false, unsigned: true })
   age: number;
+
+  @ManyToOne(() => Host, (host) => host.dogs, { eager: true })
+  host: Host;
 }

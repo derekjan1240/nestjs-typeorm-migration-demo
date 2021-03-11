@@ -1,6 +1,5 @@
 import {
   Controller,
-  UsePipes,
   Get,
   Post,
   Body,
@@ -24,27 +23,32 @@ export class DogsController {
     @Body() dto: CreateDogDto,
     @User() user: UserEntity,
   ): Promise<CreateDogDto> {
-    const dog = DogDto.from(dto);
+    const dog = CreateDogDto.from(dto);
     return this.dogsService.create(dog, user);
   }
 
   @Get()
-  public async findAll(): Promise<CreateDogDto[]> {
+  public async findAll(): Promise<DogDto[]> {
     return await this.dogsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dogsService.findOne(+id);
+  public async findOne(@Param('id') id: string): Promise<DogDto> {
+    return await this.dogsService.findOne(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateDogDto: UpdateDogDto) {
-    return this.dogsService.update(+id, updateDogDto);
+  public async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateDogDto,
+    @User() user: UserEntity,
+  ): Promise<UpdateDogDto> {
+    const dog = UpdateDogDto.from(dto);
+    return this.dogsService.update(id, dog, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dogsService.remove(+id);
+  public async remove(@Param('id') id: string): Promise<DogDto> {
+    return await this.dogsService.remove(id);
   }
 }
